@@ -7,3 +7,5 @@ pydantic
 typing
 sqlalchemy
 seaborn
+plotly
+streamlit-aggrid
