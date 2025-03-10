@@ -20,7 +20,8 @@ services:
     container_name: logstash
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./application.log:/var/log/application.log  # Monter le fichier de logs
+      - ./log_clear.log:/var/log/application.log  # Monter le fichier de logs
+      # - ./application.log:/var/log/application.log  # Monter le fichier de logs
     depends_on:
       - elasticsearch
     networks:
