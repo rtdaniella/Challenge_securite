@@ -1,3 +1,4 @@
 streamlit 
 elasticsearch 
 pandas
+streamlit_option_menu
