@@ -9,7 +9,7 @@ with st.sidebar:
 
     selected = option_menu(
         "", 
-        ["📊 Dashboard", "📄 Données", "📈 Analyse réseau", "🛡️ Détection d'anomalies", "Linh-Nhi", "Edina", "Accueil"],
+        ["📊 Dashboard", "📄 Données", "📈 Analyse réseau", "🛡️ Détection d'anomalies", "Linh-Nhi", "Edina"],
         icons=["📊", "📄", "📈", "🛡️","🧑‍💻","🧑‍💻"],
         menu_icon="none",
     )
@@ -32,6 +32,4 @@ elif selected == "📈 Analyse réseau":
 elif selected == "Edina":
     import edina
     edina.show_edina()
-elif selected == "Accueil":
-    import accueil
-    accueil.show_accueil()
+
