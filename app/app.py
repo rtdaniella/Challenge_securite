@@ -23,7 +23,7 @@ elif selected == "📄 Données":
 elif selected == "Analyse":
     import analyse
     analyse.show_analyse()
-elif selected == "Model":
+elif selected == "🛡️ Détection d'anomalies":
     import model
     model.show_model()
 elif selected == "📈 Analyse réseau":
@@ -32,3 +32,4 @@ elif selected == "📈 Analyse réseau":
 elif selected == "Edina":
     import edina
     edina.show_edina()
+
