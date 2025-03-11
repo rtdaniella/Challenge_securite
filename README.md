@@ -17,6 +17,9 @@ Ce projet se concentre sur l'analyse de sécurité et la gestion des règles de 
 1. Cloner le projet
 ```bash
 git clone https://github.com/rtdaniella/Challenge_securite.git
+```
+
+```bash
 cd Challenge_securite
 ```
 
