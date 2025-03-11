@@ -5,8 +5,8 @@ import pandas as pd
 
 
 def show_edina():
-    es = Elasticsearch("http://localhost:9200")
-    # es = Elasticsearch("http://elasticsearch:9200")
+    # es = Elasticsearch("http://localhost:9200")
+    es = Elasticsearch("http://elasticsearch:9200")
 
 
     # Requête Elasticsearch pour récupérer les logs filtrés
