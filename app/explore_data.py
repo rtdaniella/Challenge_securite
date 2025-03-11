@@ -6,7 +6,10 @@ from st_aggrid import AgGrid, GridOptionsBuilder
 import ipaddress
 
 # ✅ Connexion à Elasticsearch
-ES_HOST = "http://localhost:9200"
+# ES_HOST = "http://localhost:9200"
+ES_HOST = "http://elasticsearch:9200"
+
+
 INDEX_NAME = "application-logs"
 
 # ✅ Fonction pour trier correctement les adresses IP

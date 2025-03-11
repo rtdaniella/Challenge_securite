@@ -7,7 +7,8 @@ import datetime
 # Fonction pour charger les données depuis Elasticsearch avec mise en cache
 @st.cache_data
 def load_data():
-    es = Elasticsearch("http://localhost:9200")
+    # es = Elasticsearch("http://localhost:9200")
+    es = Elasticsearch("http://elasticsearch:9200")
     response = es.search(index="application-logs", size=5000, body={"query": {"match_all": {}}})
     logs = [hit["_source"] for hit in response["hits"]["hits"]]
     return pd.DataFrame(logs)

@@ -27,20 +27,20 @@ services:
     networks:
       - elk-network
 
-  # streamlit:
-  #   image: streamlit_app
-  #   build:
-  #       context: ./app
-  #       dockerfile: Dockerfile
-  #   ports:
-  #       - "8501:8501"
-  #   # working_dir: /app
-  #   volumes:
-  #     - ./app:/app
-  #   depends_on:
-  #     - elasticsearch
-  #   networks:
-  #     - elk-network
+  streamlit:
+    image: streamlit_app
+    build:
+        context: ./app
+        dockerfile: Dockerfile
+    ports:
+        - "8501:8501"
+    # working_dir: /app
+    volumes:
+      - ./app:/app
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk-network
 
 
 volumes:
