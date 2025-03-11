@@ -457,3 +457,21 @@ def show_dashboard():
             )
             st.plotly_chart(fig_proto, use_container_width=True)
 
+        # 📂 Boutons de téléchargement
+        st.subheader("⬇️ Télécharger les logs filtrés")
+
+        # Télécharger les données en CSV
+        st.download_button(
+            label="📄 Télécharger CSV", 
+            data=filtered_ip_data.to_csv(index=False), 
+            file_name="logs_filtrés.csv", 
+            mime="text/csv"
+        )
+
+        # Télécharger les données en JSON
+        st.download_button(
+            label="📂 Télécharger JSON", 
+            data=filtered_ip_data.to_json(orient="records"), 
+            file_name="logs_filtrés.json", 
+            mime="application/json"
+        )
