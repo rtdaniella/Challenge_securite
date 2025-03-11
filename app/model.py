@@ -83,7 +83,7 @@ def show_model():
         hover_cols = ["IP_Source"]  # Liste des colonnes à afficher en tooltip
 
     # AgGrid avancée pour afficher les résultats
-    df_result = df
+    df_result = df.drop("Cluster_str", axis=1)
     gb2 = GridOptionsBuilder.from_dataframe(df_result)
     gb2.configure_pagination(enabled=True, paginationPageSize=20)
     gb2.configure_default_column(filterable=True, sortable=True, resizable=True)
@@ -91,7 +91,7 @@ def show_model():
     AgGrid(df_result, gridOptions=grid_options2, enable_enterprise_modules=True)
 
     # ----------------- Scatter matrix (équivalent pairplot) -----------------
-    st.write("### Visualisation Pairplot des clusters (Scatter Matrix)")
+    st.write("### Visualisation Pairplot des clusters")
     
     # Liste des colonnes numériques disponibles (hors colonne 'Cluster'/'Cluster_str')
     numeric_columns = [
