@@ -1,0 +1,8 @@
+streamlit 
+elasticsearch 
+pandas
+streamlit_option_menu
+seaborn
+plotly
+streamlit-aggrid
+scikit-learn
