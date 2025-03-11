@@ -122,7 +122,7 @@ def show_edina():
     filtered_df = apply_filters(df, range_permit, protocol, port_range)
 
     # Onglets pour organiser le contenu
-    tab1, tab2, tab3 = st.tabs(["Statistiques", "Visualisation interactive", "One IP"])
+    tab1, tab2 = st.tabs(["Statistiques", "Visualisation interactive"])
 
     with tab1:
         st.write("Visualisation interactive des données par IP")
