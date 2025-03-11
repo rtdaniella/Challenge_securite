@@ -1,4 +1,4 @@
-version: '3.8'
+version: '1.0'
 
 services:
   elasticsearch:
@@ -28,20 +28,20 @@ services:
       - elk-network
 
   # streamlit:
-  #   image: python:3.9-slim
-  #   container_name: streamlit
+  #   image: streamlit_app
+  #   build:
+  #       context: ./app
+  #       dockerfile: Dockerfile
   #   ports:
-  #     - "8501:8501"
-  #   working_dir: /app
+  #       - "8501:8501"
+  #   # working_dir: /app
   #   volumes:
   #     - ./app:/app
-  #   command: >
-  #     sh -c "pip install streamlit elasticsearch pandas &&
-  #            streamlit run app.py"
   #   depends_on:
   #     - elasticsearch
   #   networks:
   #     - elk-network
+
 
 volumes:
   elasticsearch_data:

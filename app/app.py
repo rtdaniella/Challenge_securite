@@ -32,3 +32,4 @@ elif selected == "📈 Analyse réseau":
 elif selected == "Edina":
     import edina
     edina.show_edina()
+

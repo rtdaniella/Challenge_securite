@@ -2,10 +2,6 @@ streamlit
 elasticsearch 
 pandas
 streamlit_option_menu
-polars
-pydantic
-typing
-sqlalchemy
 seaborn
 plotly
 streamlit-aggrid
