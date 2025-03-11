@@ -207,7 +207,7 @@ def show_data():
             if selected_actions:
                 df = df[df['action'].isin(selected_actions)]
 
-        col3, col4, col5 = st.columns(3)
+        col3, col4 = st.columns(2)
         with col3:
             portsrc_options = sorted(df['portsrc'].dropna().unique())
             selected_portsrc = st.multiselect(
@@ -218,21 +218,20 @@ def show_data():
                 selected_portsrc = portsrc_options  # Si sélection vide ou "Tout sélectionner", prendre tout
             df = df[df['portsrc'].isin(selected_portsrc)]
 
+        # with col4:
+        #     # ✅ Ajout du filtre par plage de ports (RFC 6056)
+        #     port_range_filter = st.selectbox(
+        #         "📌 Filtrer par plage de ports", 
+        #         ["Aucune", "Well-Known Ports (0-1023)", "Registered Ports (1024-49151)", "Dynamic/Private Ports (49152-65535)"]
+        #     )
+        #     # Application du filtre par plage
+        #     if port_range_filter == "Well-Known Ports (0-1023)":
+        #         df = df[(df['portdst'] >= 0) & (df['portdst'] <= 1023)]
+        #     elif port_range_filter == "Registered Ports (1024-49151)":
+        #         df = df[(df['portdst'] >= 1024) & (df['portdst'] <= 49151)]
+        #     elif port_range_filter == "Dynamic/Private Ports (49152-65535)":
+        #         df = df[(df['portdst'] >= 49152) & (df['portdst'] <= 65535)]
         with col4:
-            # ✅ Ajout du filtre par plage de ports (RFC 6056)
-            port_range_filter = st.selectbox(
-                "📌 Filtrer par plage de ports", 
-                ["Aucune", "Well-Known Ports (0-1023)", "Registered Ports (1024-49151)", "Dynamic/Private Ports (49152-65535)"]
-            )
-
-            # Application du filtre par plage
-            if port_range_filter == "Well-Known Ports (0-1023)":
-                df = df[(df['portdst'] >= 0) & (df['portdst'] <= 1023)]
-            elif port_range_filter == "Registered Ports (1024-49151)":
-                df = df[(df['portdst'] >= 1024) & (df['portdst'] <= 49151)]
-            elif port_range_filter == "Dynamic/Private Ports (49152-65535)":
-                df = df[(df['portdst'] >= 49152) & (df['portdst'] <= 65535)]
-        with col5:
             # ✅ Filtre par ports individuels
             portdst_options = sorted(df['portdst'].dropna().unique())
             selected_portdst = st.multiselect(
