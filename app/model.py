@@ -10,7 +10,6 @@ import plotly.graph_objects as go
 # Importez vos fonctions depuis utils.py
 from utils import permit_deny_by_ip, get_one_ip_logs
 
-# On utilise st.cache_data pour stocker les résultats en fonction des entrées
 @st.cache_data(show_spinner=False)
 def load_data():
     # Chargement des données depuis Elasticsearch
@@ -26,7 +25,7 @@ def compute_clusters(df, features, k = 2):
     return clusters, kmeans
 
 @st.cache_data(show_spinner=False)
-def sample_for_pairplot(df, max_rows=1000000):
+def sample_for_pairplot(df, max_rows=800000):
     # Si le DataFrame est grand, on en prend un échantillon pour accélérer l'affichage
     if len(df) > max_rows:
         return df.sample(max_rows, random_state=42)
