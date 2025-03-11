@@ -3,12 +3,11 @@ import pandas as pd
 import plotly.express as px
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-from st_aggrid import AgGrid  # Pour afficher les tableaux avec AgGrid
+from st_aggrid import AgGrid, GridOptionsBuilder  # Ajout de GridOptionsBuilder
 
 # Importez vos fonctions depuis utils.py
 from utils import permit_deny_by_ip, get_one_ip_logs
 
-# On utilise st.cache_data pour stocker les résultats en fonction des entrées
 @st.cache_data(show_spinner=False)
 def load_data():
     # Chargement des données depuis Elasticsearch
@@ -24,7 +23,7 @@ def compute_clusters(df, features, k):
     return clusters, kmeans
 
 @st.cache_data(show_spinner=False)
-def sample_for_pairplot(df, max_rows=1000000):
+def sample_for_pairplot(df, max_rows=800000):
     # Si le DataFrame est grand, on en prend un échantillon pour accélérer l'affichage
     if len(df) > max_rows:
         return df.sample(max_rows, random_state=42)
@@ -49,18 +48,15 @@ def show_model():
         </style>
     """, unsafe_allow_html=True)
     st.markdown('<div class="title">🕸️Machine Learning</div>', unsafe_allow_html=True)
-    
-    st.write("### Clustering des logs par IP")
-    
+
     # Chargement des données (mise en cache)
     df = load_data()
     
     if df.empty:
         st.error("Aucune donnée récupérée depuis Elasticsearch.")
         return
-    
-    st.write("Aperçu des données :")
-    AgGrid(df.head())  # Affichage des données avec AgGrid
+    # Utilisation d'AgGrid avec une configuration avancée
+    st.subheader("📋 Tableau des Logs")
 
     # Colonnes numériques à utiliser pour le clustering
     features = [
@@ -70,7 +66,7 @@ def show_model():
     ]
 
     # Choix du nombre de clusters
-    k = st.number_input("Nombre de clusters", min_value=2, max_value=10, value=3, step=1)
+    k = st.number_input("Nombre de clusters", min_value=2, max_value=10, value=2, step=1)
     
     # Calcul des clusters (mise en cache)
     clusters, _ = compute_clusters(df, features, k)
@@ -86,21 +82,13 @@ def show_model():
     else:
         hover_cols = ["IP_Source"]  # Liste des colonnes à afficher en tooltip
 
-    st.write("Résultats du clustering :")
-    AgGrid(df.head())  # Affichage des résultats avec AgGrid
-
-    # # ----------------- Visualisation : Scatter plot (exemple) -----------------
-    # st.write("### Scatter Plot (exemple) : PERMIT vs DENY")
-    # fig_scatter = px.scatter(
-    #     df,
-    #     x="PERMIT",
-    #     y="DENY",
-    #     color="Cluster_str",                # On utilise la version texte pour un rendu discret
-    #     hover_data=hover_cols,              # Pour afficher l'IP en tooltip
-    #     title="Clustering des logs (PERMIT vs DENY)",
-    #     color_discrete_sequence=px.colors.qualitative.Set2  # Palette discrète
-    # )
-    # st.plotly_chart(fig_scatter)
+    # AgGrid avancée pour afficher les résultats
+    df_result = df
+    gb2 = GridOptionsBuilder.from_dataframe(df_result)
+    gb2.configure_pagination(enabled=True, paginationPageSize=20)
+    gb2.configure_default_column(filterable=True, sortable=True, resizable=True)
+    grid_options2 = gb2.build()
+    AgGrid(df_result, gridOptions=grid_options2, enable_enterprise_modules=True)
 
     # ----------------- Scatter matrix (équivalent pairplot) -----------------
     st.write("### Visualisation Pairplot des clusters (Scatter Matrix)")
@@ -113,7 +101,7 @@ def show_model():
     subsetvar = st.multiselect(
         "Sélectionnez les variables pour le pairplot", 
         options=numeric_columns, 
-        default=numeric_columns[:3]
+        default=numeric_columns[:4]
     )
     
     if len(subsetvar) < 2:
