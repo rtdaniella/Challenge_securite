@@ -18,4 +18,4 @@ def show_model():
             }
         </style>
     """, unsafe_allow_html=True)
-    st.markdown('<div class="title">🕸️Machine Learning</div>', unsafe_allow_html=True)
+    st.markdown('<div class="title">🛡️ Machine Learning</div>', unsafe_allow_html=True)
