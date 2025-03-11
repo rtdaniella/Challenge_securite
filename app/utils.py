@@ -3,7 +3,8 @@ import pandas as pd
 import traceback  # Pour afficher les erreurs détaillées
 
 # Connexion à Elasticsearch (modifie l'URL si nécessaire)
-es = Elasticsearch("http://localhost:9200")
+# es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch("http://elasticsearch:9200")
 
 INDEX_NAME = "application-logs"
 BATCH_SIZE = 1000  # Nombre d'éléments par batch
