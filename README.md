@@ -25,6 +25,9 @@ cd Challenge_securite
 
 2. Lancer le projet avec Docker Compose
 ```bash
+docker  compose build
+```
+```bash
 docker-compose up -d
 ```
 
