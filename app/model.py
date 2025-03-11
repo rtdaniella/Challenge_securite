@@ -110,7 +110,6 @@ def show_model():
         # Pour accélérer, on prend un échantillon du DataFrame pour le scatter matrix
         df_sample = sample_for_pairplot(df)
         
-        # Création du scatter matrix
         fig_pair = px.scatter_matrix(
             df_sample,
             dimensions=subsetvar,
@@ -119,7 +118,25 @@ def show_model():
             title="Pairplot des clusters",
             color_discrete_sequence=px.colors.qualitative.Set2
         )
+
+        # Ajuster la taille globale du graphique
+        fig_pair.update_layout(
+            width=900,
+            height=900,
+            margin=dict(l=40, r=40, b=40, t=40),
+        )
+
+        # Taille et transparence des points
+        fig_pair.update_traces(marker=dict(size=8, opacity=0.9))
+
+        # Activer la grille dans chaque sous-graphique (axes X et Y)
+        fig_pair.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGray')
+        fig_pair.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGray')
+
+        # Afficher le graphique dans Streamlit
         st.plotly_chart(fig_pair)
+
+
 
 if __name__ == "__main__":
     show_model()
