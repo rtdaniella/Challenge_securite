@@ -9,27 +9,28 @@ with st.sidebar:
 
     selected = option_menu(
         "", 
-        ["📊 Dashboard", "📄 Données", "📈 Analyse réseau", "🛡️ Détection d'anomalies", "Linh-Nhi", "Edina"],
-        icons=["📊", "📄", "📈", "🛡️","🧑‍💻","🧑‍💻"],
+        ["📈 Dashboard", "📄 Données", "🛡️ Détection d'anomalies"],
+        icons=["📈", "📄", "🛡️"],
         menu_icon="none",
     )
 
-if selected == "📊 Dashboard":
+if selected == "📈 Dashboard":
     import dashboard
     dashboard.show_dashboard()
 elif selected == "📄 Données":
     import explore_data
     explore_data.show_data()
-elif selected == "Analyse":
-    import analyse
-    analyse.show_analyse()
 elif selected == "🛡️ Détection d'anomalies":
     import model
     model.show_model()
-elif selected == "📈 Analyse réseau":
-    import linhnhi
-    linhnhi.show_linhnhi()
-elif selected == "Edina":
-    import edina
-    edina.show_edina()
+
+# elif selected == "Analyse":
+#     import analyse
+#     analyse.show_analyse()
+# elif selected == "📈 Analyse réseau":
+#     import linhnhi
+#     linhnhi.show_linhnhi()
+# elif selected == "Edina":
+#     import edina
+#     edina.show_edina()
 
