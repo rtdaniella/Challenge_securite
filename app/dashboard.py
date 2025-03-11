@@ -122,6 +122,19 @@ def show_dashboard():
                 height: 160px;
                 color: white;
             }
+            .kpi-card-ip {
+                font-size: 20px;
+                font-weight: bold;
+                text-align: center;
+                padding: 20px;
+                background-color: #000066;
+                border-radius: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                margin: 10px;
+                height: 150px;
+                color: white;
+            }
             .kpi-card:hover {
                 transform: translateY(-10px);
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -129,6 +142,35 @@ def show_dashboard():
             .kpi-value {
                 font-size: 40px;
                 color: #4CAF50;
+            }
+            /* Style des onglets */
+            .stTabs [role="tablist"] {
+                display: flex;
+                padding: 8px;
+                
+            }
+            
+            .stTabs [role="tab"] {
+                color: black;
+                font-weight: bold;
+                
+                padding: 10px 20px;
+                margin: 0 10px;
+                transition: background 0.3s;
+            }
+            
+            .stTabs [role="tab"][aria-selected="true"] {
+                background: #4eb151;
+                color: white;
+            }
+            
+            .stTabs [role="tab"]:hover {
+                background: #46a049;
+            }
+
+            /* Amélioration des sliders et dropdowns */
+            .stSlider, .stMultiSelect, .stSelectbox {
+                font-size: 18px !important;
             }
         </style>
     """, unsafe_allow_html=True)
@@ -143,7 +185,7 @@ def show_dashboard():
     
     #filters
     st.subheader("Filtres")
-    range_permit = st.slider("Nombre de PERMIT", 0, int(df['PERMIT'].max()), (0, int(df['PERMIT'].max())))
+    range_permit = st.slider("✅ Nombre de PERMIT", 0, int(df['PERMIT'].max()), (0, int(df['PERMIT'].max())))
     
     col1, col2 = st.columns(2)
     with col1:
@@ -153,7 +195,7 @@ def show_dashboard():
             default=["TCP", "UDP"])
     with col2:
         port_range = st.selectbox(
-            "Plage de ports", 
+            "🎯 Plage de ports", 
             [
                 "Tous les ports",
                 "Well Known (0-1023)",
@@ -165,10 +207,10 @@ def show_dashboard():
     filtered_df = apply_filters(df, range_permit, protocol, port_range)
 
     # Onglets pour organiser le contenu
-    tab1, tab2 = st.tabs(["Statistiques", "Visualisation interactive"])
+    tab1, tab2 = st.tabs(["📉 Statistiques", "🖥️ Analyse détaillée par IP"])
 
     with tab1:
-        st.write("Visualisation interactive des données par IP")
+        st.subheader("📉 Statistiques")
         total_requests = filtered_df['COUNT'].sum()
         total_permit = filtered_df['PERMIT'].sum()
         total_deny = filtered_df['DENY'].sum()
@@ -179,7 +221,7 @@ def show_dashboard():
             st.markdown(f"""
             <div class="kpi-card">
                 <div class="kpi-value">{total_requests:,}</div>
-                <p>✅ Total Flux</p>
+                <p>🌐 Total Flux</p>
             </div>
         """, unsafe_allow_html=True)
         with col2:
@@ -270,8 +312,8 @@ def show_dashboard():
                 
                 
     with tab2:
-        st.subheader("Analyse détaillée par IP")
-        selected_ip = st.selectbox("Sélectionnez une IP", filtered_df["IP_Source"].unique())
+        st.subheader("🖥️ Analyse détaillée par IP")
+        selected_ip = st.selectbox("🔎 Sélectionnez une IP", filtered_df["IP_Source"].unique())
         
         # Get IP data with caching
         @st.cache_data(ttl=300)
@@ -286,16 +328,36 @@ def show_dashboard():
         # Metrics display
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Total Requêtes", f"{ip_data.shape[0]:,}")
+            st.markdown(f"""
+            <div class="kpi-card-ip">
+                <div class="kpi-value">{ip_data.shape[0]:,}</div>
+                <p>🔢 Total Requêtes</p>
+            </div>
+        """, unsafe_allow_html=True)
         with col2:
             permit_count = ip_data['action'].value_counts().get('PERMIT', 0)
-            st.metric("Total PERMIT", f"{permit_count:,}")
+            st.markdown(f"""
+            <div class="kpi-card-ip">
+                <div class="kpi-value">{permit_count:,}</div>
+                <p>🔓 Total PERMIT</p>
+            </div>
+        """, unsafe_allow_html=True)
         with col3:
             deny_count = ip_data['action'].value_counts().get('DENY', 0)
-            st.metric("Total DENY", f"{deny_count:,}")
+            st.markdown(f"""
+            <div class="kpi-card-ip">
+                <div class="kpi-value">{deny_count:,}</div>
+                <p>🔒 Total DENY</p>
+            </div>
+        """, unsafe_allow_html=True)
         with col4:
             rules_count = ip_data['idregle'].nunique()
-            st.metric("Total Règles", f"{rules_count:,}")
+            st.markdown(f"""
+            <div class="kpi-card-ip">
+                <div class="kpi-value">{rules_count:,}</div>
+                <p>🔧 Total Règles</p>
+            </div>
+        """, unsafe_allow_html=True)
         
         # Date filter and plot
         date_col, plot_col = st.columns([1, 3])
@@ -305,20 +367,20 @@ def show_dashboard():
             max_date = ip_data['timestamp'].max().date()
             
             date_debut = st.date_input(
-                "Date de début",
+                "🗓️ Date de début",
                 value=min_date,
                 min_value=min_date,
                 max_value=max_date
             )
             date_fin = st.date_input(
-                "Date de fin",
+                "🗓️ Date de fin",
                 value=max_date,
                 min_value=min_date,
                 max_value=max_date
             )
             
             # Show date range stats
-            st.info(f"Période: {(date_fin - date_debut).days + 1} jours")
+            st.info(f"🕒 Période: {(date_fin - date_debut).days + 1} jours")
         
         with plot_col:
             # Filter data by date
@@ -351,7 +413,7 @@ def show_dashboard():
                 ))
             
             fig_time.update_layout(
-                title=f"Activité journalière pour {selected_ip}",
+                title=f"📈 Activité journalière pour {selected_ip}",
                 xaxis_title="Date",
                 yaxis_title="Nombre d'événements",
                 hovermode='x unified',
